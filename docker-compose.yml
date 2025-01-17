@@ -1,16 +1,18 @@
 services:
   flutter:
-    image: ghcr.io/cirruslabs/flutter:3.27.1
+    build:
+      context: .
     container_name: flutter_app
     volumes:
-      - '/mnt/n/app_src:/app'                  # Windows の N: ドライブを /app にマウント
-      - /tmp/.X11-unix:/tmp/.X11-unix      # X11 ソケットの共有
-
-    network_mode: host                     #ポートを共有
-
+      - '/home/user/Developer:/app'
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/kvm:/dev/kvm
+    network_mode: host
     environment:
       - DISPLAY=:0
-
-    command: ["/bin/sh"]
-    stdin_open: true    # これを追加
-    tty: true           # これを追加
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    devices:
+      - /dev/kvm:/dev/kvm
+    privileged: true
