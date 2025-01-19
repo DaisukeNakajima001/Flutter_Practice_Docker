@@ -4,7 +4,7 @@ services:
       context: .
     container_name: flutter_app
     volumes:
-      - '/home/user/Developer:/app'
+      - '/home/user4512/Developer:/app'
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /dev/kvm:/dev/kvm
     network_mode: host

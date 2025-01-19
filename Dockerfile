@@ -37,8 +37,17 @@ RUN mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools \
     && mv ${ANDROID_SDK_ROOT}/cmdline-tools/cmdline-tools ${ANDROID_SDK_ROOT}/cmdline-tools/latest
 
 # SDKコンポーネントインストール
-RUN yes | sdkmanager --licenses \
-    && sdkmanager "platform-tools" "platforms;android-33" "emulator" "system-images;android-33;google_apis;x86_64"
+RUN yes | sdkmanager --licenses && \
+    sdkmanager "platform-tools" "platforms;android-35" \
+    "emulator" "system-images;android-33;google_apis;x86_64" \
+    "build-tools;33.0.1"
+
+# Flutter Web SDK の事前ダウンロード
+RUN flutter precache --web --linux --no-android
+
+# Flutter ライブラリの事前インストール
+COPY pubspec.yaml pubspec.yaml
+RUN flutter pub get
 
 # flutteruser 作成
 RUN useradd -ms /bin/bash flutteruser
